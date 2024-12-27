@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="number"], button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Age Calculator</h1>
+        <label for="dob-day">Day of Birth:</label>
+        <input type="number" id="dob-day" placeholder="Enter day (1-31)" min="1" max="31">
+
+        <label for="dob-month">Month of Birth:</label>
+        <input type="number" id="dob-month" placeholder="Enter month (1-12)" min="1" max="12">
+
+        <label for="dob-year">Year of Birth:</label>
+        <input type="number" id="dob-year" placeholder="Enter year">
+
+        <button onclick="calculateAge()">Calculate Age</button>
+
+        <div class="result" id="age-result"></div>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const day = document.getElementById('dob-day').value;
+            const month = document.getElementById('dob-month').value;
+            const year = document.getElementById('dob-year').value;
+            const resultElement = document.getElementById('age-result');
+
+            // Validate the inputs
+            if (!day || !month || !year || day < 1 || day > 31 || month < 1 || month > 12) {
+                resultElement.textContent = "Please enter a valid date.";
+                resultElement.style.color = "red";
+                return;
+            }
+
+            const birthDate = new Date(year, month - 1, day);
+            const today = new Date();
+
+            // Calculate the age difference
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--; // Subtract one year if the birthday hasn't occurred yet this year
+            }
+
+            resultElement.textContent = `You are ${age} years old.`;
+            resultElement.style.color = "green";
+        }
+    </script>
+
+</body>
+</html>
